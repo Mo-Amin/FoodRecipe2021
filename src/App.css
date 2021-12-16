@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+/* made by al - Change this later */
+.centerForm {
+  margin: auto;
+  width: 60%;
+  border: 3px solid orange;
+  padding: 10px;
+  text-align: center;
+}

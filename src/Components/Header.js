@@ -19,7 +19,7 @@ function Header() {
         sticky="top"
       >
         <Container>
-          <LinkContainer to="/">
+          <LinkContainer to="/Home">
             <Navbar.Brand>
               <h3>Healthy Choices</h3>
             </Navbar.Brand>

@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import "bootstrap/dist/css/bootstrap.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./Components/Home";
 import MealPlan from "./Components/MealPlan";
 import About from "./Components/About";
 import CaloricMaintenance from "./Components/CaloricMaintenance";
@@ -15,7 +15,7 @@ ReactDOM.render(
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/" component={App} />
+        <Route exact path="/Home" component={Home} />
         <Route path="/CaloricMaintenance" component={CaloricMaintenance} />
         <Route path="/MealPlan" component={MealPlan} />
         <Route path="/About" component={About} />

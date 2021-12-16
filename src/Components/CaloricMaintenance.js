@@ -2,11 +2,11 @@ import "../App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Component } from "react";
 
-export default class CaloricMaintance extends Component {
+export default class CaloricMaintenance extends Component {
   render() {
     return (
       <div>
-        <h1>CaloricMaintance</h1>
+        <h1>CaloricMaintenance</h1>
         <div className='centerForm'>
           <h1>Calorie Calculator</h1>
           <form>
@@ -82,7 +82,7 @@ export default class CaloricMaintance extends Component {
               {/* This is submit */}
               <button type="submit" class="mt-3 btn btn-primary">Submit</button>
           </form>
-      </div>
+        </div>
       </div>
     );
   }

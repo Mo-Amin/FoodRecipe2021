@@ -25,8 +25,8 @@ function Header() {
             </Navbar.Brand>
           </LinkContainer>
           <Nav className="mr-auto">
-            <LinkContainer to="/CaloricMaintance">
-              <Nav.Link>Caloric Maintance</Nav.Link>
+            <LinkContainer to="/CaloricMaintenance">
+              <Nav.Link>Caloric Maintenance</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/MealPlan">
               <Nav.Link>Meal Plan</Nav.Link>

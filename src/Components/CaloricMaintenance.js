@@ -6,7 +6,25 @@ export default class CaloricMaintenance extends Component {
   handleSubmit(event) {
     console.log(event);
 
-    console.log(event.target[0].value);
+    console.log(event.target);
+
+    let calories = 0;
+    //User is male
+    if (event.target[1].checked) {
+      calories =
+        10 * (event.target[5].value * 0.453592) +
+        6.25 * ((12 * event.target[3].value + event.target[4].value) * 2.54) -
+        5 * event.target[0].value +
+        5;
+    }
+    //User is female
+    else {
+    }
+
+    if (event.target[6].value === "sedentary") calories *= 1.55;
+
+    console.log(calories);
+
     event.preventDefault();
   }
   render() {

@@ -12,9 +12,12 @@ export default class CaloricMaintenance extends Component {
     //User is male
     if (event.target[1].checked) {
       calories =
-        10 * (event.target[5].value * 0.453592) +
-        6.25 * ((12 * event.target[3].value + event.target[4].value) * 2.54) -
-        5 * event.target[0].value +
+        10 * (Number(event.target[5].value) * 0.453592) +
+        6.25 *
+          ((12 * Number(event.target[3].value) +
+            Number(event.target[4].value)) *
+            2.54) -
+        5 * Number(event.target[0].value) +
         5;
     }
     //User is female

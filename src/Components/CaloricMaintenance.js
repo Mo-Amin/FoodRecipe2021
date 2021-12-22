@@ -22,9 +22,20 @@ export default class CaloricMaintenance extends Component {
     }
     //User is female
     else {
+        calories =
+        10 * (Number(event.target[5].value) * 0.453592) +
+        6.25 *
+          ((12 * Number(event.target[3].value) +
+            Number(event.target[4].value)) *
+            2.54) -
+        5 * Number(event.target[0].value) -
+        161;
     }
 
     if (event.target[6].value === "sedentary") calories *= 1.55;
+    else if (event.target[6].value === "moderatelyActive") calories *= 1.85;
+    else if (event.target[6].value === "vigorouslyActive") calories *= 2.2;
+    else if (event.target[6].value === "extremelyActive") calories *= 2.4;
 
     console.log(calories);
 

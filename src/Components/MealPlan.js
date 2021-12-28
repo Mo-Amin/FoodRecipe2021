@@ -1,25 +1,49 @@
 import "../App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Component } from "react";
-import axios from "axios";
+//import axios from "axios";
+
+import "./mealplan.css";
 let MoapiKey = "30e7963687fd483793f6d573f5db5d16";
 let number = 100;
 let offset = 0;
 export default class MealPlan extends Component {
-  componentDidMount() {
+  state = { data: [] };
+
+  async componentDidMount() {
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoapiKey}&number=${number}&offset=${offset}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    this.setState({ data: data.results });
+    console.log(data.results);
+
+    /*
     axios
       .get(
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoapiKey}&number=${number}&offset=${offset}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
+        this.setState({ data: response.data });
       });
+    */
   }
+  /*
+  image() {
+    if (this.state.data !== null) {
+      console.log(this.state.data);
+    }
+  }
+  */
 
   render() {
     return (
-      <div>
-        <h1>Meal Plan</h1>
+      <div className="foodimages">
+        {this.state.data.map((item, i) => (
+          <button>
+            <img alt={item.title} src={item.image} />
+          </button>
+        ))}
       </div>
     );
   }

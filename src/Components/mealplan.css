@@ -1,0 +1,16 @@
+.foodimages {
+  display: flex;
+  flex-flow: wrap;
+
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+img,
+button {
+  margin: 10px;
+}
+
+button {
+  background: lightgray;
+}

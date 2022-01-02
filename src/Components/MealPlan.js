@@ -1,23 +1,54 @@
 import "../App.css";
 import "bootstrap/dist/css/bootstrap.css";
-// NOT IDEAL, only import each component used, NOT the entire library. Fix this later
-//https://react-bootstrap.github.io/components/modal/ not sure why its not working
+//https://react-bootstrap.github.io/components/modal/
 import { Button, Modal } from 'react-bootstrap';
 import { Component } from "react";
+//https://react-select.com/home
+import Select from "react-select";
 //import axios from "axios";
 
 import "./mealplan.css";
 let MoApiKey = "30e7963687fd483793f6d573f5db5d16";
 let number = 100;
 let offset = 0;
+
+//not sure how to expand this array below, or should do a design change? 
+const options = [
+  { value: 'eggs', label: 'Eggs' },
+  { value: 'tomato', label: 'Tomato' },
+  { value: 'cheese', label: 'Cheese' },
+  { value: 'rice', label: 'Rice'}
+]
 export default class MealPlan extends Component {
-  state = { data: [], setShow: false };
+  state = { 
+    data: [], 
+    setShow: false,
+    ingredientsExcluded: [] 
+  };
 
   handleClose = () => this.setState({setShow: false});
   handleShow = () => this.setState({setShow: true});
+  handleChange = (ingredientsExcluded) => this.setState({ingredientsExcluded});
+  reset = () => {
+    this.setState({ingredientsExcluded: []})
+    this.handleClose();
+  }
+  filter = () => {
+    // const response = fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoApiKey}&number=${number}&offset=${offset}&excludeIngredients=${this.returnExcludeIngredientsFormat()}`);
+    // const data =  response.json();
+    // this.setState({ data: data.results });
+    this.handleClose();
+  }
+  returnExcludeIngredientsFormat(){
+    let ingredientsExcluded = '';
+    for(let i = 0; i < this.state.ingredientsExcluded.length; ++i){
+      ingredientsExcluded += this.state.ingredientsExcluded[i].value + ',';
+    }
+    return ingredientsExcluded;
+  }
 
   async componentDidMount() {
-    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoApiKey}&number=${number}&offset=${offset}`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoApiKey}&number=${number}&offset=${offset}&excludeIngredients=${this.returnExcludeIngredientsFormat()}`;
     const response = await fetch(url);
     const data = await response.json();
     this.setState({ data: data.results });
@@ -50,23 +81,21 @@ export default class MealPlan extends Component {
         <Button variant="primary" onClick={this.handleShow}>
         Filter Meals
         </Button>
+        <Button variant="secondary" onClick={this.test}>TEST</Button>
         <Modal
         show={this.state.setShow}
         onHide={this.handleClose}
         keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
+            <Modal.Title>Filter Meal Plans</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            I will not close if you click outside me. Don't even try to press
-            escape key.
+            <Select options={options} placeholder="Ingredients Excluded" isMulti isSearchable onChange={this.handleChange} />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={this.handleClose}>Save</Button>
+            <Button variant="secondary" onClick={this.reset}>Reset</Button>
+            <Button variant="primary" onClick={this.filter}>Filter</Button>
           </Modal.Footer>
         </Modal>
 

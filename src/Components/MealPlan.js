@@ -19,6 +19,7 @@ const options = [
   { value: "cheese", label: "Cheese" },
   { value: "rice", label: "Rice" },
 ];
+
 export default class MealPlan extends Component {
   state = {
     data: [],
@@ -48,12 +49,22 @@ export default class MealPlan extends Component {
     return ingredientsExcluded;
   }
 
-  async componentDidMount() {
+  fetchAPI = async () => {
     const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoApiKey}&number=${number}&offset=${offset}&excludeIngredients=${this.returnExcludeIngredientsFormat()}`;
     const response = await fetch(url);
     const data = await response.json();
     this.setState({ data: data.results });
     console.log(data.results);
+  };
+  componentDidMount() {
+    this.fetchAPI();
+    /*
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${MoApiKey}&number=${number}&offset=${offset}&excludeIngredients=${this.returnExcludeIngredientsFormat()}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    this.setState({ data: data.results });
+    console.log(data.results);
+    */
 
     /*
     axios

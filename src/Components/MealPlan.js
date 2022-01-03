@@ -36,12 +36,16 @@ export default class MealPlan extends Component {
   }
   */
 
+  handleClick(event) {
+    console.log(event);
+  }
   render() {
     return (
       <div className="foodimages">
         {this.state.data.map((item, i) => (
-          <button>
+          <button id={item.id} onClick={this.handleClick}>
             <img alt={item.title} src={item.image} />
+            <p>{item.title.substring(0, 10)}</p>
           </button>
         ))}
       </div>

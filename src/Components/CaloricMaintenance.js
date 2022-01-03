@@ -3,43 +3,109 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Component } from "react";
 
 export default class CaloricMaintenance extends Component {
-  handleSubmit(event) {
-    console.log(event);
-
-    console.log(event.target);
-
-    let calories = 0;
-    //User is male
-    if (event.target[1].checked) {
-      calories =
-        10 * (Number(event.target[5].value) * 0.453592) +
-        6.25 *
-          ((12 * Number(event.target[3].value) +
-            Number(event.target[4].value)) *
-            2.54) -
-        5 * Number(event.target[0].value) +
-        5;
+  state = {
+    user: {
+      isMale: false,
+      age: 0,
+      weight: 0,
+      height: 0,
+      goal: '',
+      physicalActivityLevel: ''
+    },
+    calories: 0
+  }
+  constructor() {
+    super();
+    this.state = {
+      user: {
+        isMale: false,
+        age: 0,
+        weight: 0,
+        height: 0,
+        goal: '',
+        physicalActivityLevel: ''
+      },
+      calories: 0
     }
-    //User is female
-    else {
-        calories =
-        10 * (Number(event.target[5].value) * 0.453592) +
-        6.25 *
-          ((12 * Number(event.target[3].value) +
-            Number(event.target[4].value)) *
-            2.54) -
-        5 * Number(event.target[0].value) -
-        161;
+  }
+  //testing purposes only, delete later
+  //Component doesn't update immediately, which is why console.log(this.state.calories) doesn't print the correct value immediately. This function outputs the console when the component does indeed update 
+  componentDidUpdate() {
+    console.log("componentDidUpdate fired");
+    console.log("STATE", this.state);
+  }
+  /* https://techstrology.com/cannot-read-property-state-of-undefined-reactjs/
+    I was getting a undefined error on my this.state variable. Changed it to a arrow function
+    to solve it
+  */
+  handleSubmit = (event) => {
+    //creating a local variable and sorting the values from the Event form 
+    let auser = this.state.user;
+    auser.age = Number(event.target[0].value);
+    auser.isMale = event.target[1].checked;
+    auser.weight = Number(event.target[5].value);
+    auser.height = ((12 * Number(event.target[3].value) + Number(event.target[4].value)) * 2.54); //convert feet to inches -> inches to cm
+    auser.physicalActivityLevel = event.target[6].value;
+    auser.goal = (this.getGoal(event.target[7].checked, event.target[8].checked, event.target[9].checked));
+
+    //Update the State (user) by the local variable 
+    this.setState({user: auser})
+
+    //Creating local variable for calories - value is determine whether they are m/f and what physical activity level they are
+    let currentCalories = 0;
+    if(this.state.user.isMale){
+      currentCalories = (10 * (this.state.user.weight * 0.453592) + 6.25 * (this.state.user.height) - 5 * this.state.user.age + 5)
+    }
+    else{
+      currentCalories = (10 * (this.state.user.weight * 0.453592) + 6.25 * (this.state.user.height) - 5 * this.state.user.age + 161)
     }
 
-    if (event.target[6].value === "sedentary") calories *= 1.55;
-    else if (event.target[6].value === "moderatelyActive") calories *= 1.85;
-    else if (event.target[6].value === "vigorouslyActive") calories *= 2.2;
-    else if (event.target[6].value === "extremelyActive") calories *= 2.4;
+    //original code, going to check the formula and see if it checks out. If so then delete comments below
+    // //User is male
+    // if (event.target[1].checked) {
+    //   calories =
+    //     10 * (Number(event.target[5].value) * 0.453592) +
+    //     6.25 *
+    //       ((12 * Number(event.target[3].value) +
+    //         Number(event.target[4].value)) *
+    //         2.54) -
+    //     5 * Number(event.target[0].value) +
+    //     5;
+    // }
+    // //User is female
+    // else {
+    //     calories =
+    //     10 * (Number(event.target[5].value) * 0.453592) +
+    //     6.25 *
+    //       ((12 * Number(event.target[3].value) +
+    //         Number(event.target[4].value)) *
+    //         2.54) -
+    //     5 * Number(event.target[0].value) -
+    //     161;
+    // }
 
-    console.log(calories);
+    // if (event.target[6].value === "sedentary") calories *= 1.55;
+    // else if (event.target[6].value === "moderatelyActive") calories *= 1.85;
+    // else if (event.target[6].value === "vigorouslyActive") calories *= 2.2;
+    // else if (event.target[6].value === "extremelyActive") calories *= 2.4;
+
+    if(this.state.user.physicalActivityLevel === "sedentary") currentCalories *= 1.55;
+    else if(this.state.user.physicalActivityLevel === "moderatelyActive") currentCalories *= 1.85;
+    else if(this.state.user.physicalActivityLevel === "vigorouslyActive") currentCalories *= 2.2;
+    else if(this.state.user.physicalActivityLevel === "extremelyActive") currentCalories *= 2.4;
+
+    //update state (calories) with local variable 
+    this.setState({calories: currentCalories});
+    console.log(this.state.calories);
 
     event.preventDefault();
+  }
+
+  getGoal(surplus, deficit, maintain) {    
+    if(surplus) return "Surplus";
+    if(deficit) return "Deficit";
+    if(maintain) return "Maintain Weight";
+    return "Error";
   }
   render() {
     return (
